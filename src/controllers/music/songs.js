@@ -149,9 +149,24 @@ export default function (view, params, tabContent) {
     };
 
     function shuffle() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
-            playbackManager.shuffle(item);
-        });
+        const userId = ApiClient.getCurrentUserId();
+        const parentId = params.topParentId;
+
+        if (parentId) {
+            ApiClient.getItem(userId, parentId).then(function (item) {
+                playbackManager.shuffle(item);
+            });
+        } else {
+            ApiClient.getUserViews({}, userId).then(function (result) {
+                const musicView = result.Items.filter(function (i) {
+                    return i.CollectionType == 'music';
+                })[0];
+
+                if (musicView) {
+                    playbackManager.shuffle(musicView);
+                }
+            });
+        }
     }
 
     self.getCurrentViewStyle = function () {
