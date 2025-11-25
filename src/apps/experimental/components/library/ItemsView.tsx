@@ -162,16 +162,6 @@ const ItemsView: FC<ItemsViewProps> = ({
             cardOptions.lines = 1;
             cardOptions.showYear = false;
             cardOptions.overlayPlayButton = true;
-        } else if (viewType === LibraryTab.Channels) {
-            cardOptions.shape = CardShape.Square;
-            cardOptions.showDetailsMenu = true;
-            cardOptions.showCurrentProgram = true;
-            cardOptions.showCurrentProgramTime = true;
-        } else if (viewType === LibraryTab.SeriesTimers) {
-            cardOptions.shape = CardShape.Backdrop;
-            cardOptions.showSeriesTimerTime = true;
-            cardOptions.showSeriesTimerChannel = true;
-            cardOptions.overlayMoreButton = true;
             cardOptions.lines = 3;
         } else if (viewType === LibraryTab.Movies) {
             cardOptions.overlayPlayButton = true;

@@ -4,42 +4,6 @@ import { LibraryRoute } from '../types/LibraryRoute';
 
 export const LibraryRoutes: LibraryRoute[] = [
     {
-        path: '/livetv',
-        views: [
-            {
-                index: 0,
-                label: 'Programs',
-                view: LibraryTab.Programs,
-                isDefault: true
-            },
-            {
-                index: 1,
-                label: 'Guide',
-                view: LibraryTab.Guide
-            },
-            {
-                index: 2,
-                label: 'Channels',
-                view: LibraryTab.Channels
-            },
-            {
-                index: 3,
-                label: 'Recordings',
-                view: LibraryTab.Recordings
-            },
-            {
-                index: 4,
-                label: 'Schedule',
-                view: LibraryTab.Schedule
-            },
-            {
-                index: 5,
-                label: 'Series',
-                view: LibraryTab.SeriesTimers
-            }
-        ]
-    },
-    {
         path: '/movies',
         views: [
             {
@@ -127,11 +91,6 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 2,
-                label: 'TabUpcoming',
-                view: LibraryTab.Upcoming
-            },
-            {
-                index: 3,
                 label: 'Genres',
                 view: LibraryTab.Genres
             },

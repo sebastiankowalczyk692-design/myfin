@@ -1,11 +1,8 @@
 import Box from '@mui/material/Box/Box';
 import React, { type FC } from 'react';
 import SuggestionsSectionView from './SuggestionsSectionView';
-import UpcomingView from './UpcomingView';
 import GenresView from './GenresView';
 import ItemsView from './ItemsView';
-import GuideView from './GuideView';
-import ProgramsSectionView from './ProgramsSectionView';
 import { LibraryTab } from 'types/libraryTab';
 import type { ParentId } from 'types/library';
 import type { LibraryTabContent } from 'types/libraryTabContent';
@@ -37,35 +34,6 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
         );
     }
 
-    if (currentTab.viewType === LibraryTab.Programs || currentTab.viewType === LibraryTab.Recordings || currentTab.viewType === LibraryTab.Schedule) {
-        return (
-            <>
-                <Box className='padded-top padded-left padded-right padded-bottom'>
-                    <LibraryViewMenu />
-                </Box>
-
-                <ProgramsSectionView
-                    parentId={parentId}
-                    sectionType={
-                        currentTab.sectionsView?.programSections ?? []
-                    }
-                    isUpcomingRecordingsEnabled={currentTab.sectionsView?.isLiveTvUpcomingRecordings}
-                />
-            </>
-        );
-    }
-
-    if (currentTab.viewType === LibraryTab.Upcoming) {
-        return (
-            <>
-                <Box className='padded-top padded-left padded-right padded-bottom'>
-                    <LibraryViewMenu />
-                </Box>
-
-                <UpcomingView parentId={parentId} />
-            </>
-        );
-    }
 
     if (currentTab.viewType === LibraryTab.Genres) {
         return (
@@ -83,23 +51,6 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
         );
     }
 
-    if (currentTab.viewType === LibraryTab.Guide) {
-        return (
-            <>
-                <Box
-                    className='padded-top padded-left padded-right padded-bottom'
-                    sx={{
-                        position: 'relative',
-                        zIndex: 2
-                    }}
-                >
-                    <LibraryViewMenu />
-                </Box>
-
-                <GuideView />
-            </>
-        );
-    }
 
     return (
         <ItemsView

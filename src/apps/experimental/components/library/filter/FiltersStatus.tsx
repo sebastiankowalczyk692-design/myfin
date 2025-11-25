@@ -56,7 +56,6 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
             && viewType !== LibraryTab.Artists
             && viewType !== LibraryTab.AlbumArtists
             && viewType !== LibraryTab.Songs
-            && viewType !== LibraryTab.Channels
             && viewType !== LibraryTab.PhotoAlbums
             && viewType !== LibraryTab.Photos
         ) {
