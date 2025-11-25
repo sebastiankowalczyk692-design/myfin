@@ -65,7 +65,6 @@
     "HeaderMedia": "Medya",
     "EveryXMinutes": "Chak {0} minit",
     "HeaderContinueWatching": "Kontinye Kade",
-    "HeaderDVR": "DVR",
     "Movies": "Fim",
     "EveryHour": "Chak èdtan",
     "Photos": "Foto",
@@ -95,7 +94,6 @@
     "EveryNDays": "Chak {0} jou",
     "MusicVideos": "Videyo Mizik",
     "EveryXHours": "Chak {0} èdtan",
-    "ButtonQuickStartGuide": "Gid Konfigirasyon",
     "ButtonParentalControl": "Kontwòl paran",
     "ButtonPlayer": "Pleyè",
     "ButtonPreviousTrack": "Trak anvan"
