@@ -86,12 +86,7 @@ export const LEGACY_USER_ROUTES: LegacyRoute[] = [
             isNowPlayingBarEnabled: false,
             isThemeMediaSupported: true
         }
-    }, {
-        path: 'home',
-        pageProps: {
-            controller: 'home',
-            view: 'home.html'
-        }
+
     }, {
         path: 'movies',
         pageProps: {

@@ -12,10 +12,10 @@ import './quickConnect.scss';
 
 const QuickConnectPage: FC = () => {
     const { api, user } = useApi();
-    const [ searchParams ] = useSearchParams();
-    const [ code, setCode ] = useState(searchParams.get('code') ?? '');
-    const [ error, setError ] = useState<string>();
-    const [ success, setSuccess ] = useState(false);
+    const [searchParams] = useSearchParams();
+    const [code, setCode] = useState(searchParams.get('code') ?? '');
+    const [error, setError] = useState<string>();
+    const [success, setSuccess] = useState(false);
 
     const onCodeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setCode(event.currentTarget.value);
@@ -83,7 +83,7 @@ const QuickConnectPage: FC = () => {
                                 <p>
                                     {globalize.translate('QuickConnectAuthorizeSuccess')}
                                 </p>
-                                <Link to='/home' className='button-link emby-button'>
+                                <Link to='/music' className='button-link emby-button'>
                                     {globalize.translate('GoHome')}
                                 </Link>
                             </div>

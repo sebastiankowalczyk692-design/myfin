@@ -66,8 +66,8 @@ function authenticateQuickConnect(apiClient, targetUrl) {
 
         const connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
 
-        const interval = setInterval(function() {
-            apiClient.getJSON(connectUrl).then(async function(data) {
+        const interval = setInterval(function () {
+            apiClient.getJSON(connectUrl).then(async function (data) {
                 if (!data.Authenticated) {
                     return;
                 }
@@ -101,7 +101,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
         }, 5000, connectUrl);
 
         return true;
-    }, function(e) {
+    }, function (e) {
         Dashboard.alert({
             message: globalize.translate('QuickConnectNotActive'),
             title: globalize.translate('HeaderError')
@@ -114,7 +114,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
 
 function onLoginSuccessful(id, accessToken, apiClient, url) {
     Dashboard.onServerChanged(id, accessToken, apiClient);
-    Dashboard.navigate(url || 'home');
+    Dashboard.navigate(url || 'music');
 }
 
 function showManualForm(context, showCancel, focusPassword) {
@@ -205,7 +205,7 @@ export default function (view, params) {
             }
         }
 
-        return '/home';
+        return '/music';
     }
 
     function showVisualForm() {
