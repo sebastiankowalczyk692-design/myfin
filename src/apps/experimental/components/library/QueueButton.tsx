@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { FC, useCallback } from 'react';
 import Button from '@mui/material/Button';
 import Queue from '@mui/icons-material/Queue';

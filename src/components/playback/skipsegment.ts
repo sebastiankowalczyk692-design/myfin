@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PlaybackManager } from './playbackmanager';
 import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';

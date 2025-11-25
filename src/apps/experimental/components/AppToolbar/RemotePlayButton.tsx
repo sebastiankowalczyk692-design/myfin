@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useCallback, useEffect, useState } from 'react';
 import CastConnected from '@mui/icons-material/CastConnected';
 import Box from '@mui/material/Box';

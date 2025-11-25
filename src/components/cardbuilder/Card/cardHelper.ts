@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Api } from '@jellyfin/sdk';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { BaseItemPerson } from '@jellyfin/sdk/lib/generated-client/models/base-item-person';

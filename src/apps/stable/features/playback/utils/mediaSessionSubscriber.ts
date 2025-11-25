@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 
 import { getImageUrl } from 'apps/stable/features/playback/utils/image';

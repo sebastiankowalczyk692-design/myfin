@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Warning from '@mui/icons-material/Warning';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';

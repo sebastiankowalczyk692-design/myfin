@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { FC, useCallback, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';

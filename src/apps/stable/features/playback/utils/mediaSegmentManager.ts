@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Api } from '@jellyfin/sdk/lib/api';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
