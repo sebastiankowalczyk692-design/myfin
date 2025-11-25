@@ -4,7 +4,6 @@ import { CardShape } from 'utils/card';
 import { Section } from '../types';
 import { CardOptions } from 'types/cardOptions';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
-import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
 import { SEARCH_SECTIONS_SORT_ORDER } from '../constants/sectionSortOrder';
 
 export const isMovies = (collectionType: string) =>
@@ -15,9 +14,6 @@ export const isTVShows = (collectionType: string) =>
 
 export const isMusic = (collectionType: string) =>
     collectionType === CollectionType.Music;
-
-export const isLivetv = (collectionType: string) =>
-    collectionType === CollectionType.Livetv;
 
 export function addSection(
     sections: Section[],
@@ -67,8 +63,6 @@ export function getCardOptionsFromType(type: BaseItemKind) {
                 showParentTitle: true,
                 shape: CardShape.SquareOverflow
             };
-        case BaseItemKind.LiveTvProgram:
-            return LIVETV_CARD_OPTIONS;
         default:
             return {};
     }
@@ -88,10 +82,6 @@ export function getTitleFromType(type: BaseItemKind) {
             return 'Albums';
         case BaseItemKind.Audio:
             return 'Songs';
-        case BaseItemKind.LiveTvProgram:
-            return 'Programs';
-        case BaseItemKind.TvChannel:
-            return 'Channels';
         case BaseItemKind.PhotoAlbum:
             return 'HeaderPhotoAlbums';
         case BaseItemKind.Photo:
@@ -130,7 +120,6 @@ export function getItemTypesFromCollectionType(collectionType: CollectionType | 
                 BaseItemKind.Playlist,
                 BaseItemKind.MusicAlbum,
                 BaseItemKind.Audio,
-                BaseItemKind.TvChannel,
                 BaseItemKind.PhotoAlbum,
                 BaseItemKind.Photo,
                 BaseItemKind.AudioBook,
