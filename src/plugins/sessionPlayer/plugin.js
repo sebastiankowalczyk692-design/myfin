@@ -513,11 +513,6 @@ class SessionPlayer {
         return state.AudioStreamIndex;
     }
 
-    playTrailers(item) {
-        sendCommandByName(this, 'PlayTrailers', {
-            ItemId: item.Id
-        });
-    }
 
     setAudioStreamIndex(index) {
         sendCommandByName(this, 'SetAudioStreamIndex', {

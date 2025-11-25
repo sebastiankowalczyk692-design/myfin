@@ -648,7 +648,6 @@ function normalizePlayOptions(playOptions) {
 
 function truncatePlayOptions(playOptions) {
     return {
-        aspectRatio: playOptions.aspectRatio,
         fullscreen: playOptions.fullscreen,
         mediaSourceId: playOptions.mediaSourceId,
         audioStreamIndex: playOptions.audioStreamIndex,
@@ -1049,57 +1048,6 @@ export class PlaybackManager {
             return getPlayer(item, getDefaultPlayOptions()) != null;
         };
 
-        self.toggleAspectRatio = function (player) {
-            player = player || self._currentPlayer;
-
-            if (player) {
-                const current = self.getAspectRatio(player);
-
-                const supported = self.getSupportedAspectRatios(player);
-
-                let index = -1;
-                for (let i = 0, length = supported.length; i < length; i++) {
-                    if (supported[i].id === current) {
-                        index = i;
-                        break;
-                    }
-                }
-
-                index++;
-                if (index >= supported.length) {
-                    index = 0;
-                }
-
-                self.setAspectRatio(supported[index].id, player);
-            }
-        };
-
-        self.setAspectRatio = function (val, player) {
-            player = player || self._currentPlayer;
-
-            if (player?.setAspectRatio) {
-                player.setAspectRatio(val);
-            }
-        };
-
-        self.getSupportedAspectRatios = function (player) {
-            player = player || self._currentPlayer;
-
-            if (player?.getSupportedAspectRatios) {
-                return player.getSupportedAspectRatios();
-            }
-
-            return [];
-        };
-
-        self.getAspectRatio = function (player) {
-            player = player || self._currentPlayer;
-
-            if (player?.getAspectRatio) {
-                return player.getAspectRatio();
-            }
-        };
-
         self.increasePlaybackRate = function (player) {
             player = player || self._currentPlayer;
             if (player) {
@@ -1144,28 +1092,6 @@ export class PlaybackManager {
                 return player.getSupportedPlaybackRates();
             }
             return [];
-        };
-
-        let brightnessOsdLoaded;
-        self.setBrightness = function (val, player) {
-            player = player || self._currentPlayer;
-
-            if (player) {
-                if (!brightnessOsdLoaded) {
-                    brightnessOsdLoaded = true;
-                    // TODO: Have this trigger an event instead to get the osd out of here
-                    import('./brightnessosd').then();
-                }
-                player.setBrightness(val);
-            }
-        };
-
-        self.getBrightness = function (player) {
-            player = player || self._currentPlayer;
-
-            if (player) {
-                return player.getBrightness();
-            }
         };
 
         self.setVolume = function (val, player) {
@@ -2644,7 +2570,6 @@ export class PlaybackManager {
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
                 const options = {
-                    aspectRatio: playOptions.aspectRatio,
                     maxBitrate,
                     startPosition,
                     isPlayback: null,
@@ -2702,7 +2627,6 @@ export class PlaybackManager {
                     }
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
-                    streamInfo.aspectRatio = playOptions.aspectRatio;
                     streamInfo.fullscreen = playOptions.fullscreen;
 
                     const playerData = getPlayerData(player);
@@ -3866,42 +3790,6 @@ export class PlaybackManager {
         this.seek(ticks, player);
     }
 
-    async playTrailers(item) {
-        const player = this._currentPlayer;
-
-        if (player?.playTrailers) {
-            return player.playTrailers(item);
-        }
-
-        const apiClient = ServerConnections.getApiClient(item.ServerId);
-
-        let items;
-
-        if (item.LocalTrailerCount) {
-            items = await apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id);
-        }
-
-        if (!items?.length) {
-            items = (item.RemoteTrailers || []).map((t) => {
-                return {
-                    Name: t.Name || (item.Name + ' Trailer'),
-                    Url: t.Url,
-                    MediaType: 'Video',
-                    Type: 'Trailer',
-                    ServerId: apiClient.serverId()
-                };
-            });
-        }
-
-        if (items.length) {
-            return this.play({
-                items
-            });
-        }
-
-        return Promise.reject();
-    }
-
     getSubtitleUrl(textStream, serverId) {
         const apiClient = ServerConnections.getApiClient(serverId);
 
@@ -4061,8 +3949,7 @@ export class PlaybackManager {
                 'DisplayMessage',
                 'SetRepeatMode',
                 'SetShuffleQueue',
-                'PlayMediaSource',
-                'PlayTrailers'
+                'PlayMediaSource'
             ];
 
             if (appHost.supports(AppFeature.Fullscreen)) {
@@ -4075,12 +3962,6 @@ export class PlaybackManager {
                 }
                 if (player.supports('AirPlay')) {
                     list.push('AirPlay');
-                }
-                if (player.supports('SetBrightness')) {
-                    list.push('SetBrightness');
-                }
-                if (player.supports('SetAspectRatio')) {
-                    list.push('SetAspectRatio');
                 }
                 if (player.supports('PlaybackRate')) {
                     list.push('PlaybackRate');
@@ -4235,14 +4116,8 @@ export class PlaybackManager {
             case 'SetVolume':
                 this.setVolume(cmd.Arguments.Volume, player);
                 break;
-            case 'SetAspectRatio':
-                this.setAspectRatio(cmd.Arguments.AspectRatio, player);
-                break;
             case 'PlaybackRate':
                 this.setPlaybackRate(cmd.Arguments.PlaybackRate, player);
-                break;
-            case 'SetBrightness':
-                this.setBrightness(cmd.Arguments.Brightness, player);
                 break;
             case 'SetAudioStreamIndex':
                 this.setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10), player);

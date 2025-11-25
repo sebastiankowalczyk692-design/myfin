@@ -885,9 +885,6 @@ class ChromecastPlayer {
         return state.ShuffleMode;
     }
 
-    playTrailers() {
-        console.warn('[chromecastPlayer] Playing trailers is not supported.');
-    }
 
     setRepeatMode(mode) {
         this._castPlayer.sendMessage({

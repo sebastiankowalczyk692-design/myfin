@@ -30,11 +30,6 @@ function displayContent(cmd, apiClient) {
     }
 }
 
-function playTrailers(apiClient, itemId) {
-    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-        playbackManager.playTrailers(item);
-    });
-}
 
 function processGeneralCommand(cmd, apiClient) {
     console.debug('Received command: ' + cmd.Name);
@@ -63,9 +58,6 @@ function processGeneralCommand(cmd, apiClient) {
         case 'PageDown':
             inputManager.handleCommand('pagedown');
             return;
-        case 'PlayTrailers':
-            playTrailers(apiClient, cmd.Arguments.ItemId);
-            break;
         case 'SetRepeatMode':
             playbackManager.setRepeatMode(cmd.Arguments.RepeatMode);
             break;

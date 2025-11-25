@@ -1941,9 +1941,6 @@ export default function (view, params) {
         playbackManager.play(playOptions);
     }
 
-    function playTrailer() {
-        playbackManager.playTrailers(currentItem);
-    }
 
     function playCurrentItem(button, mode) {
         const item = currentItem;
@@ -1982,9 +1979,6 @@ export default function (view, params) {
     }
 
 
-    function onPlayTrailerClick() {
-        playTrailer();
-    }
 
     function onDownloadClick() {
         const downloadHref = getApiClient().getItemDownloadUrl(currentItem.Id);
