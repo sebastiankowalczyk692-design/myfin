@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck 
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
@@ -33,6 +33,7 @@ import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { bindSkipSegment } from './skipsegment.ts';
+import { volumeUtils } from '../../hooks/useVolume';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -44,9 +45,6 @@ function enableLocalPlaylistManagement(player) {
     return player.isLocalPlayer;
 }
 
-function supportsPhysicalVolumeControl(player) {
-    return player.isLocalPlayer && appHost.supports(AppFeature.PhysicalVolumeControl);
-}
 
 function bindToFullscreenChange(player) {
     if (Screenfull.isEnabled) {
@@ -1172,36 +1170,22 @@ export class PlaybackManager {
 
         self.setVolume = function (val, player) {
             player = player || self._currentPlayer;
-
-            if (player && !supportsPhysicalVolumeControl(player)) {
-                player.setVolume(val);
-            }
+            volumeUtils.setVolume(val, player);
         };
 
         self.getVolume = function (player) {
             player = player || self._currentPlayer;
-
-            if (player && !supportsPhysicalVolumeControl(player)) {
-                return player.getVolume();
-            }
-
-            return 1;
+            return volumeUtils.getVolume(player);
         };
 
         self.volumeUp = function (player) {
             player = player || self._currentPlayer;
-
-            if (player && !supportsPhysicalVolumeControl(player)) {
-                player.volumeUp();
-            }
+            volumeUtils.volumeUp(player);
         };
 
         self.volumeDown = function (player) {
             player = player || self._currentPlayer;
-
-            if (player && !supportsPhysicalVolumeControl(player)) {
-                player.volumeDown();
-            }
+            volumeUtils.volumeDown(player);
         };
 
         self.changeAudioStream = function (player) {
@@ -3780,27 +3764,15 @@ export class PlaybackManager {
     }
 
     isMuted(player = this._currentPlayer) {
-        if (player) {
-            return player.isMuted();
-        }
-
-        return false;
+        return volumeUtils.isMuted(player);
     }
 
     setMute(mute, player = this._currentPlayer) {
-        if (player) {
-            player.setMute(mute);
-        }
+        volumeUtils.setMute(mute, player);
     }
 
     toggleMute(mute, player = this._currentPlayer) {
-        if (player) {
-            if (player.toggleMute) {
-                player.toggleMute();
-            } else {
-                player.setMute(!player.isMuted());
-            }
-        }
+        volumeUtils.toggleMute(player);
     }
 
     toggleDisplayMirroring() {
