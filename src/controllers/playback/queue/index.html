@@ -4,6 +4,9 @@
 
         <div class="nowPlayingInfoContainer">
             <div class="nowPlayingPageImageContainer"></div>
+            <div class="dolbyAtmosLogoContainer hide">
+                <img class="dolbyAtmosLogo" src="../../../assets/img/DA.png" alt="Dolby Atmos" />
+            </div>
             <div class="nowPlayingInfoControls">
 
                 <div class="infoContainer flex">
@@ -183,6 +186,9 @@
             <div class="playlistSectionButton flex align-items-center justify-content-center focuscontainer-x">
                 <button id="togglePlaylist" is="paper-icon-button-light" class="btnTogglePlaylist hide" title="${ButtonTogglePlaylist}">
                     <span class="material-icons queue_music" aria-hidden="true"></span>
+                </button>
+                <button is="paper-icon-button-light" class="btnNowPlayingCast hide" title="${ButtonCast}">
+                    <span class="material-icons cast" aria-hidden="true"></span>
                 </button>
                 <button is="paper-icon-button-light" class="btnSavePlaylist hide" title="${Save}">
                     <span class="material-icons save" aria-hidden="true"></span>

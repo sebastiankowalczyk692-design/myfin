@@ -191,10 +191,50 @@ function updateNowPlayingInfo(context, state, serverId) {
             const likes = userData.Likes == null ? '' : userData.Likes;
             context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
             context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+
+            // Show/hide Dolby Atmos logo using full item data
+            updateDolbyAtmosLogo(context, fullItem);
         });
     } else {
         clearBackdrop();
         context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
+    }
+}
+
+function isDolbyAtmos(item) {
+    if (!item?.MediaStreams) {
+        console.log('[DolbyAtmos] No MediaStreams on item:', item);
+        return false;
+    }
+
+    console.log('[DolbyAtmos] Checking MediaStreams:', item.MediaStreams);
+
+    const audioStreams = item.MediaStreams.filter(stream => stream.Type === 'Audio');
+    console.log('[DolbyAtmos] Audio streams:', audioStreams.map(s => ({
+        Codec: s.Codec,
+        Profile: s.Profile,
+        DisplayTitle: s.DisplayTitle,
+        ChannelLayout: s.ChannelLayout,
+        Channels: s.Channels
+    })));
+
+    const isAtmos = item.MediaStreams.some(stream =>
+        stream.Type === 'Audio' &&
+        stream.Profile?.toLowerCase().includes('atmos')
+    );
+
+    console.log('[DolbyAtmos] Is Dolby Atmos:', isAtmos);
+    return isAtmos;
+}
+
+function updateDolbyAtmosLogo(context, item) {
+    const dolbyAtmosContainer = context.querySelector('.dolbyAtmosLogoContainer');
+    if (dolbyAtmosContainer) {
+        if (isDolbyAtmos(item)) {
+            dolbyAtmosContainer.classList.remove('hide');
+        } else {
+            dolbyAtmosContainer.classList.add('hide');
+        }
     }
 }
 
@@ -829,6 +869,14 @@ export default function () {
                 }
             }
         });
+        const btnNowPlayingCast = context.querySelector('.btnNowPlayingCast');
+        if (btnNowPlayingCast) {
+            btnNowPlayingCast.addEventListener('click', function () {
+                import('../playback/playerSelectionMenu').then((playerSelectionMenu) => {
+                    playerSelectionMenu.show(btnNowPlayingCast);
+                });
+            });
+        }
     }
 
     function onPlayerChange() {
@@ -887,6 +935,10 @@ export default function () {
             optionsSection.querySelector('.btnTogglePlaylist').insertAdjacentHTML('afterend', volumecontrolHtml);
             optionsSection.classList.add('playlistSectionButtonTransparent');
             context.querySelector('.btnTogglePlaylist').classList.remove('hide');
+            const btnNowPlayingCast = context.querySelector('.btnNowPlayingCast');
+            if (btnNowPlayingCast) {
+                btnNowPlayingCast.classList.remove('hide');
+            }
             context.querySelector('.playlistSectionButton').classList.remove('justify-content-center');
             context.querySelector('.playlistSectionButton').classList.add('justify-content-space-between');
         }

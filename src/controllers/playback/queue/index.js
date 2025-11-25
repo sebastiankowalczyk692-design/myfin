@@ -1,6 +1,7 @@
 import RemoteControl from '../../../components/remotecontrol/remotecontrol';
 import { playbackManager } from '../../../components/playback/playbackmanager';
 import libraryMenu from '../../../scripts/libraryMenu';
+import layoutManager from '../../../components/layoutManager';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-button/paper-icon-button-light';
 import '../../../elements/emby-collapse/emby-collapse';
@@ -34,8 +35,33 @@ export default function (view) {
         }
     }
 
+    function hideHeaderIcons() {
+        if (layoutManager.mobile) {
+            const skinHeader = document.querySelector('.skinHeader');
+            if (skinHeader) {
+                const headerRight = skinHeader.querySelector('.headerRight');
+                if (headerRight) {
+                    headerRight.style.display = 'none';
+                }
+            }
+        }
+    }
+
+    function showHeaderIcons() {
+        if (layoutManager.mobile) {
+            const skinHeader = document.querySelector('.skinHeader');
+            if (skinHeader) {
+                const headerRight = skinHeader.querySelector('.headerRight');
+                if (headerRight) {
+                    headerRight.style.display = '';
+                }
+            }
+        }
+    }
+
     view.addEventListener('viewshow', function () {
         libraryMenu.setTransparentMenu(true);
+        hideHeaderIcons();
         bindToPlayer(playbackManager.getCurrentPlayer());
         document.addEventListener('keydown', onKeyDown);
 
@@ -46,6 +72,7 @@ export default function (view) {
 
     view.addEventListener('viewbeforehide', function () {
         libraryMenu.setTransparentMenu(false);
+        showHeaderIcons();
         document.removeEventListener('keydown', onKeyDown);
         releaseCurrentPlayer();
 

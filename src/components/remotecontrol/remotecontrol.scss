@@ -1,7 +1,7 @@
 @use '../../styles/mixins' as *;
 
 .nowPlayingPage {
-    padding: 5em 0 0 0 !important;
+    padding: 3em 0 0 0 !important;
 }
 
 .nowPlayingInfoContainer {
@@ -94,6 +94,8 @@
     width: 16%;
     position: relative;
     flex-shrink: 0;
+    background-color: transparent;
+    box-shadow: none;
 
     [dir="ltr"] & {
         margin-right: 1em;
@@ -323,7 +325,9 @@
         justify-content: center;
         width: 100%;
         min-height: 0;
-        margin: 0 auto 0.5em;
+        margin: 0 auto 0.25em;
+        background-color: transparent;
+        box-shadow: none;
     }
 
     .nowPlayingPageImageContainerNoAlbum .cardImageContainer .cardImageIcon {
@@ -408,9 +412,11 @@
 
     .nowPlayingPageImage.nowPlayingPageImageAudio,
     .nowPlayingPageImage.nowPlayingPageImagePoster {
-        width: auto;
+        width: 100%;
+        height: 100%;
         max-width: 100%;
         max-height: 100%;
+        object-fit: contain;
     }
 
     .playlistSectionButton .volumecontrol {
@@ -463,6 +469,20 @@
 
 .nowPlayingVolumeSliderContainer {
     width: 9em;
+}
+
+.dolbyAtmosLogoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0.5em 0;
+}
+
+.dolbyAtmosLogo {
+    filter: invert(1);
+    height: 2em;
+    width: auto;
 }
 
 @media all and (max-width: 63em) {

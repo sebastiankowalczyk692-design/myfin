@@ -41,7 +41,6 @@ function renderHeader() {
     html += '<div class="flex align-items-center flex-grow headerTop">';
     html += '<div class="headerLeft">';
     html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonLeft headerBackButton hide"><span class="material-icons ' + (browser.safari ? 'chevron_left' : 'arrow_back') + '" aria-hidden="true"></span></button>';
-    html += '<button type="button" is="paper-icon-button-light" class="headerButton headerHomeButton hide barsMenuButton headerButtonLeft"><span class="material-icons home" aria-hidden="true"></span></button>';
     html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><span class="material-icons menu" aria-hidden="true"></span></button>';
     html += '<h3 class="pageTitle" aria-hidden="true"></h3>';
     html += '</div>';
@@ -65,7 +64,6 @@ function renderHeader() {
     Events.trigger(document, EventType.HEADER_RENDERED);
 
     headerBackButton = skinHeader.querySelector('.headerBackButton');
-    headerHomeButton = skinHeader.querySelector('.headerHomeButton');
     mainDrawerButton = skinHeader.querySelector('.mainDrawerButton');
     headerUserButton = skinHeader.querySelector('.headerUserButton');
     headerCastButton = skinHeader.querySelector('.headerCastButton');
@@ -102,10 +100,6 @@ function onBackClick() {
 function retranslateUi() {
     if (headerBackButton) {
         headerBackButton.title = globalize.translate('ButtonBack');
-    }
-
-    if (headerHomeButton) {
-        headerHomeButton.title = globalize.translate('Home');
     }
 
     if (mainDrawerButton) {
@@ -155,10 +149,6 @@ function updateUserInHeader(user) {
     }
 
     if (user?.localUser) {
-        if (headerHomeButton) {
-            headerHomeButton.classList.remove('hide');
-        }
-
         if (headerSearchButton) {
             headerSearchButton.classList.remove('hide');
         }
@@ -180,7 +170,6 @@ function updateUserInHeader(user) {
             headerSyncButton.classList.remove('hide');
         }
     } else {
-        headerHomeButton.classList.add('hide');
         headerCastButton.classList.add('hide');
         headerSyncButton.classList.add('hide');
 
@@ -221,10 +210,6 @@ function onHeaderUserButtonClick() {
     Dashboard.navigate('mypreferencesmenu');
 }
 
-function onHeaderHomeButtonClick() {
-    Dashboard.navigate('home');
-}
-
 function showAudioPlayer() {
     return appRouter.showNowPlaying();
 }
@@ -243,7 +228,6 @@ function bindMenuEvents() {
     }
 
     headerUserButton.addEventListener('click', onHeaderUserButtonClick);
-    headerHomeButton.addEventListener('click', onHeaderHomeButtonClick);
 
     if (!layoutManager.tv) {
         headerCastButton.addEventListener('click', onCastButtonClicked);
@@ -689,7 +673,6 @@ let navDrawerElement;
 let navDrawerScrollContainer;
 let navDrawerInstance;
 let mainDrawerButton;
-let headerHomeButton;
 let currentDrawerType;
 let documentTitle = 'Jellyfin';
 let pageTitleElement;
