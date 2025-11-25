@@ -12,11 +12,12 @@ interface UseListProps {
 }
 
 function useList({ item, listOptions }: UseListProps) {
-    // On mobile touch devices, tapping the row opens the context menu as fullscreen modal
+    // On mobile touch devices: tap plays, long press opens context menu
     const isMobileTouch = layoutManager.mobile && browser.touch;
-    const action = isMobileTouch ? 'menu' : (listOptions.action ?? 'link');
+    const action = listOptions.action ?? 'link';
     const isLargeStyle = listOptions.imageSize === 'large';
     const enableOverview = listOptions.enableOverview;
+    // On mobile touch, we make the row clickable but handle long press separately
     const clickEntireItem = !!layoutManager.tv || isMobileTouch;
     const enableSideMediaInfo = listOptions.enableSideMediaInfo ?? true;
     const enableContentWrapper =
@@ -56,7 +57,8 @@ function useList({ item, listOptions }: UseListProps) {
         className: listWrapperClass,
         title: item.Name,
         action,
-        dataAttributes
+        dataAttributes,
+        item
     });
 
     const getListContentProps = () => ({
