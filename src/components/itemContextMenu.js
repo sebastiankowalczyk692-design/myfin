@@ -197,177 +197,177 @@ export async function getCommands(options) {
                 icon: 'file_download'
             });
 
-            commands.push({
-                name: globalize.translate('CopyStreamURL'),
-                id: 'copy-stream',
-                icon: 'content_copy'
-            });
+            // commands.push({
+            //     name: globalize.translate('CopyStreamURL'),
+            //     id: 'copy-stream',
+            //     icon: 'content_copy'
+            // });
         }
     }
 
-    if (item.CanDelete && options.deleteItem !== false) {
-        commands.push({
-            name: getDeleteLabel(item.Type),
-            id: 'delete',
-            icon: 'delete'
-        });
-    }
+    // if (item.CanDelete && options.deleteItem !== false) {
+    //     commands.push({
+    //         name: getDeleteLabel(item.Type),
+    //         id: 'delete',
+    //         icon: 'delete'
+    //     });
+    // }
 
-    if (commands.length) {
-        commands.push({
-            divider: true
-        });
-    }
+    // if (commands.length) {
+    //     commands.push({
+    //         divider: true
+    //     });
+    // }
 
-    if (item.Type === BaseItemKind.Playlist) {
-        const _canEditPlaylist = await canEditPlaylist(user, item);
-        if (_canEditPlaylist) {
-            commands.push({
-                name: globalize.translate('Edit'),
-                id: 'editplaylist',
-                icon: 'edit'
-            });
-        }
-    }
+    // if (item.Type === BaseItemKind.Playlist) {
+    //     const _canEditPlaylist = await canEditPlaylist(user, item);
+    //     if (_canEditPlaylist) {
+    //         commands.push({
+    //             name: globalize.translate('Edit'),
+    //             id: 'editplaylist',
+    //             icon: 'edit'
+    //         });
+    //     }
+    // }
 
-    const canEdit = itemHelper.canEdit(user, item);
-    if (canEdit && options.edit !== false && item.Type !== 'SeriesTimer') {
-        const text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
-        commands.push({
-            name: text,
-            id: 'edit',
-            icon: 'edit'
-        });
-    }
+    // const canEdit = itemHelper.canEdit(user, item);
+    // if (canEdit && options.edit !== false && item.Type !== 'SeriesTimer') {
+    //     const text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+    //     commands.push({
+    //         name: text,
+    //         id: 'edit',
+    //         icon: 'edit'
+    //     });
+    // }
 
-    if (itemHelper.canEditImages(user, item) && options.editImages !== false) {
-        commands.push({
-            name: globalize.translate('EditImages'),
-            id: 'editimages',
-            icon: 'image'
-        });
-    }
+    // if (itemHelper.canEditImages(user, item) && options.editImages !== false) {
+    //     commands.push({
+    //         name: globalize.translate('EditImages'),
+    //         id: 'editimages',
+    //         icon: 'image'
+    //     });
+    // }
 
-    if (itemHelper.canEditSubtitles(user, item) && options.editSubtitles !== false) {
-        commands.push({
-            name: globalize.translate('EditSubtitles'),
-            id: 'editsubtitles',
-            icon: 'closed_caption'
-        });
-    }
+    // if (itemHelper.canEditSubtitles(user, item) && options.editSubtitles !== false) {
+    //     commands.push({
+    //         name: globalize.translate('EditSubtitles'),
+    //         id: 'editsubtitles',
+    //         icon: 'closed_caption'
+    //     });
+    // }
 
-    if (itemHelper.canEditLyrics(user, item)) {
-        commands.push({
-            name: globalize.translate('EditLyrics'),
-            id: 'editlyrics',
-            icon: 'lyrics'
-        });
-    }
+    // if (itemHelper.canEditLyrics(user, item)) {
+    //     commands.push({
+    //         name: globalize.translate('EditLyrics'),
+    //         id: 'editlyrics',
+    //         icon: 'lyrics'
+    //     });
+    // }
 
-    if (options.identify !== false && itemHelper.canIdentify(user, item)) {
-        commands.push({
-            name: globalize.translate('Identify'),
-            id: 'identify',
-            icon: 'edit'
-        });
-    }
+    // if (options.identify !== false && itemHelper.canIdentify(user, item)) {
+    //     commands.push({
+    //         name: globalize.translate('Identify'),
+    //         id: 'identify',
+    //         icon: 'edit'
+    //     });
+    // }
 
-    if (item.MediaSources && options.moremediainfo !== false) {
-        commands.push({
-            name: globalize.translate('MoreMediaInfo'),
-            id: 'moremediainfo',
-            icon: 'info'
-        });
-    }
+    // if (item.MediaSources && options.moremediainfo !== false) {
+    //     commands.push({
+    //         name: globalize.translate('MoreMediaInfo'),
+    //         id: 'moremediainfo',
+    //         icon: 'info'
+    //     });
+    // }
 
-    if (item.Type === 'Program' && options.record !== false) {
-        if (item.TimerId) {
-            commands.push({
-                name: globalize.translate('ManageRecording'),
-                id: 'record',
-                icon: 'fiber_manual_record'
-            });
-        } else {
-            commands.push({
-                name: globalize.translate('Record'),
-                id: 'record',
-                icon: 'fiber_manual_record'
-            });
-        }
-    }
+    // if (item.Type === 'Program' && options.record !== false) {
+    //     if (item.TimerId) {
+    //         commands.push({
+    //             name: globalize.translate('ManageRecording'),
+    //             id: 'record',
+    //             icon: 'fiber_manual_record'
+    //         });
+    //     } else {
+    //         commands.push({
+    //             name: globalize.translate('Record'),
+    //             id: 'record',
+    //             icon: 'fiber_manual_record'
+    //         });
+    //     }
+    // }
 
-    if (itemHelper.canRefreshMetadata(item, user)) {
-        commands.push({
-            name: globalize.translate('RefreshMetadata'),
-            id: 'refresh',
-            icon: 'refresh'
-        });
-    }
+    // if (itemHelper.canRefreshMetadata(item, user)) {
+    //     commands.push({
+    //         name: globalize.translate('RefreshMetadata'),
+    //         id: 'refresh',
+    //         icon: 'refresh'
+    //     });
+    // }
 
-    if (item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
-        commands.push({
-            name: globalize.translate('RemoveFromPlaylist'),
-            id: 'removefromplaylist',
-            icon: 'playlist_remove'
-        });
-    }
+    // if (item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
+    //     commands.push({
+    //         name: globalize.translate('RemoveFromPlaylist'),
+    //         id: 'removefromplaylist',
+    //         icon: 'playlist_remove'
+    //     });
+    // }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex > 0) {
-        commands.push({
-            name: globalize.translate('MoveToTop'),
-            id: 'movetotop',
-            icon: 'vertical_align_top'
-        });
-    }
+    // if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex > 0) {
+    //     commands.push({
+    //         name: globalize.translate('MoveToTop'),
+    //         id: 'movetotop',
+    //         icon: 'vertical_align_top'
+    //     });
+    // }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
-        commands.push({
-            name: globalize.translate('MoveToBottom'),
-            id: 'movetobottom',
-            icon: 'vertical_align_bottom'
-        });
-    }
+    // if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
+    //     commands.push({
+    //         name: globalize.translate('MoveToBottom'),
+    //         id: 'movetobottom',
+    //         icon: 'vertical_align_bottom'
+    //     });
+    // }
 
-    if (options.collectionId) {
-        commands.push({
-            name: globalize.translate('RemoveFromCollection'),
-            id: 'removefromcollection',
-            icon: 'playlist_remove'
-        });
-    }
+    // if (options.collectionId) {
+    //     commands.push({
+    //         name: globalize.translate('RemoveFromCollection'),
+    //         id: 'removefromcollection',
+    //         icon: 'playlist_remove'
+    //     });
+    // }
 
-    if (!browser.tv && options.share === true && itemHelper.canShare(item, user)) {
-        commands.push({
-            name: globalize.translate('Share'),
-            id: 'share',
-            icon: 'share'
-        });
-    }
+    // if (!browser.tv && options.share === true && itemHelper.canShare(item, user)) {
+    //     commands.push({
+    //         name: globalize.translate('Share'),
+    //         id: 'share',
+    //         icon: 'share'
+    //     });
+    // }
 
-    if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
-        commands.push({
-            name: globalize.translate('ViewAlbum'),
-            id: 'album',
-            icon: 'album'
-        });
-    }
-    // Show Album Artist by default, as a song can have multiple artists, which specific one would this option refer to?
-    // Although some albums can have multiple artists, it's not as common as songs.
-    if (options.openArtist !== false && item.AlbumArtists?.length) {
-        commands.push({
-            name: globalize.translate('ViewAlbumArtist'),
-            id: 'artist',
-            icon: 'person'
-        });
-    }
+    // if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
+    //     commands.push({
+    //         name: globalize.translate('ViewAlbum'),
+    //         id: 'album',
+    //         icon: 'album'
+    //     });
+    // }
+    // // Show Album Artist by default, as a song can have multiple artists, which specific one would this option refer to?
+    // // Although some albums can have multiple artists, it's not as common as songs.
+    // if (options.openArtist !== false && item.AlbumArtists?.length) {
+    //     commands.push({
+    //         name: globalize.translate('ViewAlbumArtist'),
+    //         id: 'artist',
+    //         icon: 'person'
+    //     });
+    // }
 
-    if (item.HasLyrics) {
-        commands.push({
-            name: globalize.translate('ViewLyrics'),
-            id: 'lyrics',
-            icon: 'lyrics'
-        });
-    }
+    // if (item.HasLyrics) {
+    //     commands.push({
+    //         name: globalize.translate('ViewLyrics'),
+    //         id: 'lyrics',
+    //         icon: 'lyrics'
+    //     });
+    // }
 
     return commands;
 }
