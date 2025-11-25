@@ -42,7 +42,7 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 ### Dependencies
 
 - [Node.js](https://nodejs.org/en/download)
-- npm (included in Node.js)
+- [Bun](https://bun.sh/)
 
 ### Getting Started
 
@@ -56,19 +56,19 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 2. Install build dependencies in the project directory.
 
    ```sh
-   npm install
+   bun install
    ```
 
 3. Run the web client with webpack for local development.
 
    ```sh
-   npm start
+   bun start
    ```
 
 4. Build the client with sourcemaps available.
 
    ```sh
-   npm run build:development
+   bun run build:development
    ```
 
 ## Directory Structure

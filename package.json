@@ -153,13 +153,13 @@
     "Firefox ESR"
   ],
   "scripts": {
-    "start": "npm run serve",
+    "start": "bun run serve",
     "serve": "webpack serve --config webpack.dev.js",
     "build:analyze": "cross-env NODE_ENV=\"production\" webpack --config webpack.analyze.js",
     "build:development": "webpack --config webpack.dev.js",
     "build:production": "cross-env NODE_ENV=\"production\" webpack --config webpack.prod.js",
     "build:check": "tsc --noEmit",
-    "build:es-check": "npm run build:production && npm run escheck",
+    "build:es-check": "bun run build:production && bun run escheck",
     "escheck": "es-check",
     "lint": "eslint \"./\"",
     "test": "vitest --watch=false --config vite.config.ts",
@@ -168,7 +168,7 @@
   },
   "engines": {
     "node": ">=20.0.0",
-    "npm": ">=9.6.4 <11.0.0",
-    "yarn": "YARN NO LONGER USED - use npm instead."
+    "bun": ">=1.0.0",
+    "yarn": "YARN NO LONGER USED - use bun instead."
   }
 }
