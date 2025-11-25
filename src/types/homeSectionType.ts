@@ -9,7 +9,6 @@ export enum HomeSectionType {
     ResumeAudio = 'resumeaudio',
     LatestMedia = 'latestmedia',
     NextUp = 'nextup',
-    LiveTv = 'livetv',
     ResumeBook = 'resumebook'
 }
 
@@ -20,7 +19,6 @@ export const DEFAULT_SECTIONS: HomeSectionType[] = [
     HomeSectionType.Resume,
     HomeSectionType.ResumeAudio,
     HomeSectionType.ResumeBook,
-    HomeSectionType.LiveTv,
     HomeSectionType.NextUp,
     HomeSectionType.LatestMedia,
     HomeSectionType.None

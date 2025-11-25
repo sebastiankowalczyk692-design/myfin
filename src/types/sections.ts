@@ -26,11 +26,7 @@ export interface ParametersOptions {
 export enum SectionApiMethod {
     ResumeItems = 'resumeItems',
     LatestMedia = 'latestMedia',
-    NextUp = 'nextUp',
-    RecommendedPrograms = 'RecommendedPrograms',
-    LiveTvPrograms = 'liveTvPrograms',
-    Recordings = 'Recordings',
-    RecordingFolders = 'RecordingFolders'
+    NextUp = 'nextUp'
 }
 
 export enum SectionType {
@@ -41,17 +37,7 @@ export enum SectionType {
     NextUp = 'nextUp',
     LatestMusic = 'latestmusic',
     RecentlyPlayedMusic = 'recentlyplayedmusic',
-    FrequentlyPlayedMusic = 'frequentlyplayedmusic',
-    ActivePrograms = 'ActivePrograms',
-    UpcomingEpisodes = 'UpcomingEpisodes',
-    UpcomingMovies = 'UpcomingMovies',
-    UpcomingSports = 'UpcomingSports',
-    UpcomingKids = 'UpcomingKids',
-    UpcomingNews = 'UpcomingNews',
-    LatestRecordings = 'LatestRecordings',
-    RecordingFolders = 'RecordingFolders',
-    ActiveRecordings = 'ActiveRecordings',
-    UpcomingRecordings = 'UpcomingRecordings'
+    FrequentlyPlayedMusic = 'frequentlyplayedmusic'
 }
 
 export interface Section {
@@ -87,25 +73,3 @@ export const MusicSuggestionsSectionsView: SectionsView = {
     ]
 };
 
-export const ProgramSectionsView: SectionsView = {
-    programSections: [
-        SectionType.ActivePrograms,
-        SectionType.UpcomingEpisodes,
-        SectionType.UpcomingMovies,
-        SectionType.UpcomingSports,
-        SectionType.UpcomingKids,
-        SectionType.UpcomingNews
-    ]
-};
-
-export const RecordingsSectionsView: SectionsView = {
-    programSections: [
-        SectionType.LatestRecordings,
-        SectionType.RecordingFolders
-    ]
-};
-
-export const ScheduleSectionsView: SectionsView = {
-    programSections: [SectionType.ActiveRecordings],
-    isLiveTvUpcomingRecordings: true
-};
