@@ -17,7 +17,7 @@ export const STABLE_APP_ROUTES: RouteObject[] = [
         path: '/*',
         Component: AppLayout,
         children: [
-            { index: true, element: <Navigate replace to='/home' /> },
+            { index: true, element: <Navigate replace to='/music' /> },
 
             {
                 /* User routes */
