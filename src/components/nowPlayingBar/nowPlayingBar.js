@@ -93,15 +93,20 @@ function getNowPlayingBarHtml() {
     html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
     html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
 
+
     html += '<div class="nowPlayingBarUserDataButtons">';
     html += '</div>';
 
+    if (layoutManager.mobile) {
+        html += `<button is="paper-icon-button-light" class="previousTrackButton mediaButton" title="${globalize.translate('ButtonPreviousTrack')}"><span class="material-icons skip_previous" aria-hidden="true"></span></button>`;
+    }
     html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
     if (layoutManager.mobile) {
         html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
     } else {
         html += `<button is="paper-icon-button-light" class="btnToggleContextMenu mediaButton" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
     }
+
 
     html += '</div>';
     html += '</div>';
@@ -172,40 +177,44 @@ function bindEvents(elem) {
         button.addEventListener('click', onPlayPauseClick);
     });
 
-    elem.querySelector('.nextTrackButton').addEventListener('click', function () {
-        if (currentPlayer) {
-            playbackManager.nextTrack(currentPlayer);
-        }
-    });
-
-    elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
-        if (currentPlayer) {
-            if (playbackManager.isPlayingAudio(currentPlayer)) {
-                // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
-                if (e.detail > 1 ) {
-                    return;
-                }
-
-                // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
-                // to the previous track, unless we are at the first track so no previous track exists.
-                // currentTime is in msec.
-
-                if (playbackManager.currentTime(currentPlayer) >= 5 * 1000 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 0) {
-                    playbackManager.seekPercent(0, currentPlayer);
-                    // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
-                    // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
-                    positionSlider.value = 0;
-                    return;
-                }
+    elem.querySelectorAll('.nextTrackButton').forEach((button) => {
+        button.addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.nextTrack(currentPlayer);
             }
-            playbackManager.previousTrack(currentPlayer);
-        }
+        });
     });
 
-    elem.querySelector('.previousTrackButton').addEventListener('dblclick', function () {
-        if (currentPlayer) {
-            playbackManager.previousTrack(currentPlayer);
-        }
+    elem.querySelectorAll('.previousTrackButton').forEach((button) => {
+        button.addEventListener('click', function (e) {
+            if (currentPlayer) {
+                if (playbackManager.isPlayingAudio(currentPlayer)) {
+                    // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
+                    if (e.detail > 1) {
+                        return;
+                    }
+
+                    // Return to start of track, unless we are already (almost) at the beginning. In the latter case, continue and move
+                    // to the previous track, unless we are at the first track so no previous track exists.
+                    // currentTime is in msec.
+
+                    if (playbackManager.currentTime(currentPlayer) >= 5 * 1000 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 0) {
+                        playbackManager.seekPercent(0, currentPlayer);
+                        // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
+                        // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
+                        positionSlider.value = 0;
+                        return;
+                    }
+                }
+                playbackManager.previousTrack(currentPlayer);
+            }
+        });
+
+        button.addEventListener('dblclick', function () {
+            if (currentPlayer) {
+                playbackManager.previousTrack(currentPlayer);
+            }
+        });
     });
 
     toggleAirPlayButton = elem.querySelector('.btnAirPlay');
@@ -221,7 +230,7 @@ function bindEvents(elem) {
         }
     });
 
-    lyricButton.addEventListener('click', function() {
+    lyricButton.addEventListener('click', function () {
         if (isLyricPageActive) {
             appRouter.back();
         } else {

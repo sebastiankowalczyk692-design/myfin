@@ -29,6 +29,10 @@
     justify-content: center;
 }
 
+.layout-mobile .nowPlayingBarTop {
+    height: 7em;
+}
+
 .mediaButton,
 .nowPlayingBarUserDataButtons .btnUserItemRating {
     vertical-align: middle;
@@ -40,6 +44,10 @@
     font-size: 120%;
 }
 
+.layout-mobile .mediaButton {
+    font-size: 160%;
+}
+
 .nowPlayingBar .nowPlayingImage {
     background-position: center center;
     background-repeat: no-repeat;
@@ -47,6 +55,11 @@
     height: 70%;
     width: 4.2em;
     flex-shrink: 0;
+}
+
+.layout-mobile .nowPlayingBar .nowPlayingImage {
+    width: 6em;
+    height: 80%;
 }
 
 .nowPlayingBarText {
@@ -161,6 +174,7 @@
 }
 
 @media all and (max-width: 80em) {
+
     .nowPlayingBarCenter .nowPlayingBarCurrentTime,
     .nowPlayingBarCenter .stopButton {
         display: none !important;
@@ -171,7 +185,7 @@
     }
 }
 
-.layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton) {
+.layout-mobile .nowPlayingBarRight button:not(.playPauseButton, .nextTrackButton, .previousTrackButton) {
     display: none;
 }
 
@@ -202,6 +216,7 @@
 }
 
 @media all and (max-width: 24em) {
+
     .nowPlayingBar .muteButton,
     .nowPlayingBar .unmuteButton {
         display: none;

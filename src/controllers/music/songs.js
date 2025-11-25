@@ -1,4 +1,4 @@
-
+// TODO: Implement virtualized infinite scroll list for songs
 import libraryBrowser from '../../scripts/libraryBrowser';
 import imageLoader from '../../components/images/imageLoader';
 import listView from '../../components/listview/listview';
@@ -7,7 +7,6 @@ import { playbackManager } from '../../components/playback/playbackmanager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
@@ -31,10 +30,6 @@ export default function (view, params, tabContent) {
                 }
             };
 
-            if (userSettings.libraryPageSize() > 0) {
-                pageData.query['Limit'] = userSettings.libraryPageSize();
-            }
-
             pageData.query.ParentId = params.topParentId;
             userSettings.loadQuerySettings(key, pageData.query);
         }
@@ -57,39 +52,6 @@ export default function (view, params, tabContent) {
         setFilterStatus(tabContent, query);
 
         ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
-            function onNextPageClick() {
-                if (isLoading) {
-                    return;
-                }
-
-                if (userSettings.libraryPageSize() > 0) {
-                    query.StartIndex += query.Limit;
-                }
-                reloadItems(tabContent);
-            }
-
-            function onPreviousPageClick() {
-                if (isLoading) {
-                    return;
-                }
-
-                if (userSettings.libraryPageSize() > 0) {
-                    query.StartIndex = Math.max(0, query.StartIndex - query.Limit);
-                }
-                reloadItems(tabContent);
-            }
-
-            window.scrollTo(0, 0);
-            const pagingHtml = libraryBrowser.getQueryPagingHtml({
-                startIndex: query.StartIndex,
-                limit: query.Limit,
-                totalRecordCount: result.TotalRecordCount,
-                showLimit: false,
-                updatePageSizeSetting: false,
-                addLayoutButton: false,
-                sortButton: false,
-                filterButton: false
-            });
             const html = listView.getListViewHtml({
                 items: result.Items,
                 action: 'playallfromhere',
@@ -97,21 +59,6 @@ export default function (view, params, tabContent) {
                 artist: true,
                 addToListButton: true
             });
-            let elems = tabContent.querySelectorAll('.paging');
-
-            for (let i = 0, length = elems.length; i < length; i++) {
-                elems[i].innerHTML = pagingHtml;
-            }
-
-            elems = tabContent.querySelectorAll('.btnNextPage');
-            for (let i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onNextPageClick);
-            }
-
-            elems = tabContent.querySelectorAll('.btnPreviousPage');
-            for (let i = 0, length = elems.length; i < length; i++) {
-                elems[i].addEventListener('click', onPreviousPageClick);
-            }
 
             const itemsContainer = tabContent.querySelector('.itemsContainer');
             itemsContainer.innerHTML = html;
@@ -132,21 +79,6 @@ export default function (view, params, tabContent) {
     const self = this;
     const data = {};
     let isLoading = false;
-
-    self.showFilterMenu = function () {
-        import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
-            const filterDialog = new FilterDialog({
-                query: getQuery(),
-                mode: 'songs',
-                serverId: ApiClient.serverId()
-            });
-            Events.on(filterDialog, 'filterchange', function () {
-                getQuery().StartIndex = 0;
-                reloadItems();
-            });
-            filterDialog.show();
-        });
-    };
 
     function shuffle() {
         const userId = ApiClient.getCurrentUserId();
@@ -174,9 +106,6 @@ export default function (view, params, tabContent) {
     };
 
     function initPage(tabElement) {
-        tabElement.querySelector('.btnFilter').addEventListener('click', function () {
-            self.showFilterMenu();
-        });
         tabElement.querySelector('.btnSort').addEventListener('click', function (e) {
             libraryBrowser.showSortMenu({
                 items: [{
