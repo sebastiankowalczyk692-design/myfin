@@ -213,7 +213,7 @@ function getDefaultTabIndex(folderId) {
             return 6;
 
         default:
-            return 0;
+            return 5;
     }
 }
 
