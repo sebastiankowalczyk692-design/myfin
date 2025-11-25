@@ -28,7 +28,6 @@ import itemShortcuts from '../shortcuts';
 import 'elements/emby-button/paper-icon-button-light';
 
 import './card.scss';
-import '../guide/programs.scss';
 import {
     getDesiredAspect,
     getPostersPerRow,

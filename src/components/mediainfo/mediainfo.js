@@ -6,7 +6,6 @@ import itemHelper from '../itemHelper';
 import indicators from '../indicators/indicators';
 import 'material-design-icons-iconfont';
 import './mediainfo.scss';
-import '../guide/programs.scss';
 import '../../elements/emby-button/emby-button';
 import * as userSettings from '../../scripts/settings/userSettings';
 

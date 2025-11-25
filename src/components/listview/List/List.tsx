@@ -5,7 +5,6 @@ import ListWrapper from './ListWrapper';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 import '../../mediainfo/mediainfo.scss';
-import '../../guide/programs.scss';
 
 interface ListProps {
     index: number;
