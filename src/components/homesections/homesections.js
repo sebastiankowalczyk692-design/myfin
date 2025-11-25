@@ -9,7 +9,6 @@ import { queryClient } from 'utils/query/queryClient';
 import { loadRecordings } from './sections/activeRecordings';
 import { loadLibraryButtons } from './sections/libraryButtons';
 import { loadLibraryTiles } from './sections/libraryTiles';
-import { loadLiveTV } from './sections/liveTv';
 import { loadNextUp } from './sections/nextUp';
 import { loadRecentlyAdded } from './sections/recentlyAdded';
 import { loadResume } from './sections/resume';
@@ -155,8 +154,6 @@ function loadSection(page, apiClient, user, userSettings, userViews, allSections
         case HomeSectionType.LibraryButtons:
             loadLibraryButtons(elem, userViews);
             break;
-        case HomeSectionType.LiveTv:
-            return loadLiveTV(elem, apiClient, user, options);
         case HomeSectionType.NextUp:
             loadNextUp(elem, apiClient, userSettings, options);
             break;
