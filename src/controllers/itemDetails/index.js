@@ -170,18 +170,6 @@ function renderSeriesTimerEditor(page, item, apiClient, user) {
         return;
     }
 
-    if (user.Policy.EnableLiveTvManagement) {
-        import('../../components/recordingcreator/seriesrecordingeditor').then(({ default: seriesRecordingEditor }) => {
-            seriesRecordingEditor.embed(item, apiClient.serverId(), {
-                context: page.querySelector('.seriesRecordingEditor')
-            });
-        });
-
-        page.querySelector('#seriesTimerScheduleSection').classList.remove('hide');
-        hideAll(page, 'btnCancelSeriesTimer', true);
-        renderSeriesTimerSchedule(page, apiClient, item.Id);
-        return;
-    }
 
     page.querySelector('#seriesTimerScheduleSection').classList.add('hide');
     hideAll(page, 'btnCancelSeriesTimer');
@@ -698,20 +686,8 @@ function renderLogo(page, item, apiClient) {
 function showRecordingFields(instance, page, item, user) {
     if (!instance.currentRecordingFields) {
         const recordingFieldsElement = page.querySelector('.recordingFields');
-
-        if (item.Type == 'Program' && user.Policy.EnableLiveTvManagement) {
-            import('../../components/recordingcreator/recordingfields').then(({ default: RecordingFields }) => {
-                instance.currentRecordingFields = new RecordingFields({
-                    parent: recordingFieldsElement,
-                    programId: item.Id,
-                    serverId: item.ServerId
-                });
-                recordingFieldsElement.classList.remove('hide');
-            });
-        } else {
-            recordingFieldsElement.classList.add('hide');
-            recordingFieldsElement.innerHTML = '';
-        }
+        recordingFieldsElement.classList.add('hide');
+        recordingFieldsElement.innerHTML = '';
     }
 }
 
@@ -2005,21 +1981,6 @@ export default function (view, params) {
         playbackManager.shuffle(currentItem);
     }
 
-    function onCancelSeriesTimerClick() {
-        import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
-                Dashboard.navigate('livetv');
-            });
-        });
-    }
-
-    function onCancelTimerClick() {
-        import('../../components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-            recordingHelper.cancelTimer(ServerConnections.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
-                reload(self, view, params);
-            });
-        });
-    }
 
     function onPlayTrailerClick() {
         playTrailer();
@@ -2100,8 +2061,6 @@ export default function (view, params) {
         bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
         bindAll(view, '.btnShuffle', 'click', onShuffleClick);
         bindAll(view, '.btnPlayTrailer', 'click', onPlayTrailerClick);
-        bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
-        bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {

@@ -56,32 +56,12 @@ export default function (view) {
     }
 
     function updateRecordingButton(item) {
-        if (!item || item.Type !== 'Program') {
-            if (recordingButtonManager) {
-                recordingButtonManager.destroy();
-                recordingButtonManager = null;
-            }
-
-            view.querySelector('.btnRecord').classList.add('hide');
-            return;
+        if (recordingButtonManager) {
+            recordingButtonManager.destroy();
+            recordingButtonManager = null;
         }
 
-        ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
-            if (user.Policy.EnableLiveTvManagement) {
-                import('../../../components/recordingcreator/recordingbutton').then(({ default: RecordingButton }) => {
-                    if (recordingButtonManager) {
-                        recordingButtonManager.refreshItem(item);
-                        return;
-                    }
-
-                    recordingButtonManager = new RecordingButton({
-                        item: item,
-                        button: view.querySelector('.btnRecord')
-                    });
-                    view.querySelector('.btnRecord').classList.remove('hide');
-                });
-            }
-        });
+        view.querySelector('.btnRecord').classList.add('hide');
     }
 
     function updateDisplayItem(itemInfo) {
