@@ -284,34 +284,6 @@ const fetchGetItemsViewByType = async (
                     }
                 );
                 break;
-            case LibraryTab.Channels: {
-                response = await getLiveTvApi(api).getLiveTvChannels(
-                    {
-                        userId: user.Id,
-                        fields: [ItemFields.PrimaryImageAspectRatio],
-                        startIndex: libraryViewSettings.StartIndex,
-                        isFavorite: libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) ?
-                            true :
-                            undefined,
-                        enableImageTypes: [ImageType.Primary]
-                    },
-                    {
-                        signal: options?.signal
-                    }
-                );
-                break;
-            }
-            case LibraryTab.SeriesTimers:
-                response = await getLiveTvApi(api).getSeriesTimers(
-                    {
-                        sortBy: 'SortName',
-                        sortOrder: SortOrder.Ascending
-                    },
-                    {
-                        signal: options?.signal
-                    }
-                );
-                break;
             default: {
                 response = await getItemsApi(api).getItems(
                     {
@@ -385,9 +357,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.Books,
                 LibraryTab.PhotoAlbums,
                 LibraryTab.Photos,
-                LibraryTab.Videos,
-                LibraryTab.Channels,
-                LibraryTab.SeriesTimers
+                LibraryTab.Videos
             ].includes(viewType)
     });
 };
@@ -669,84 +639,6 @@ const fetchGetSectionItems = async (
     if (api && user?.Id) {
         let response;
         switch (section.apiMethod) {
-            case SectionApiMethod.RecommendedPrograms: {
-                response = (
-                    await getLiveTvApi(api).getRecommendedPrograms(
-                        {
-                            userId: user.Id,
-                            limit: 12,
-                            imageTypeLimit: 1,
-                            enableImageTypes: [ImageType.Primary, ImageType.Thumb, ImageType.Backdrop],
-                            enableTotalRecordCount: false,
-                            fields: [
-                                ItemFields.ChannelInfo,
-                                ItemFields.PrimaryImageAspectRatio,
-                                ItemFields.MediaSourceCount
-                            ],
-                            ...section.parametersOptions
-                        },
-                        {
-                            signal: options?.signal
-                        }
-                    )
-                ).data.Items;
-                break;
-            }
-            case SectionApiMethod.LiveTvPrograms: {
-                response = (
-                    await getLiveTvApi(api).getLiveTvPrograms(
-                        {
-                            userId: user.Id,
-                            limit: 12,
-                            imageTypeLimit: 1,
-                            enableImageTypes: [ImageType.Primary, ImageType.Thumb, ImageType.Backdrop],
-                            enableTotalRecordCount: false,
-                            fields: [
-                                ItemFields.ChannelInfo,
-                                ItemFields.PrimaryImageAspectRatio
-                            ],
-                            ...section.parametersOptions
-                        },
-                        {
-                            signal: options?.signal
-                        }
-                    )
-                ).data.Items;
-                break;
-            }
-            case SectionApiMethod.Recordings: {
-                response = (
-                    await getLiveTvApi(api).getRecordings(
-                        {
-                            userId: user.Id,
-                            enableImageTypes: [ImageType.Primary, ImageType.Thumb, ImageType.Backdrop],
-                            enableTotalRecordCount: false,
-                            fields: [
-                                ItemFields.CanDelete,
-                                ItemFields.PrimaryImageAspectRatio
-                            ],
-                            ...section.parametersOptions
-                        },
-                        {
-                            signal: options?.signal
-                        }
-                    )
-                ).data.Items;
-                break;
-            }
-            case SectionApiMethod.RecordingFolders: {
-                response = (
-                    await getLiveTvApi(api).getRecordingFolders(
-                        {
-                            userId: user.Id
-                        },
-                        {
-                            signal: options?.signal
-                        }
-                    )
-                ).data.Items;
-                break;
-            }
             case SectionApiMethod.NextUp: {
                 response = (
                     await getTvShowsApi(api).getNextUp(

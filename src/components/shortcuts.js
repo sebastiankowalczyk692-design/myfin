@@ -10,7 +10,6 @@ import { appRouter } from './router/appRouter';
 import globalize from '../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from '../utils/dom';
-import recordingHelper from './recordingcreator/recordinghelper';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -71,11 +70,6 @@ function playAllFromHere(card, serverId, queue) {
     }
 }
 
-function showProgramDialog(item) {
-    import('./recordingcreator/recordingcreator').then(({ default:recordingCreator }) => {
-        recordingCreator.show(item.Id, item.ServerId);
-    });
-}
 
 function getItem(button) {
     button = dom.parentWithAttribute(button, 'data-id');
@@ -283,8 +277,6 @@ function executeAction(card, target, action) {
         playAllFromHere(card, serverId, true);
     } else if (action === 'setplaylistindex') {
         playbackManager.setCurrentPlaylistItem(card.getAttribute('data-playlistitemid'));
-    } else if (action === 'record') {
-        onRecordCommand(serverId, id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
     } else if (action === 'menu') {
         const options = target.getAttribute('data-playoptions') === 'false' ?
             {
@@ -351,17 +343,7 @@ function editItem(item, serverId) {
     return new Promise((resolve, reject) => {
         const currentServerId = apiClient.serverInfo().Id;
 
-        if (item.Type === 'Timer') {
-            if (item.ProgramId) {
-                import('./recordingcreator/recordingcreator').then(({ default: recordingCreator }) => {
-                    recordingCreator.show(item.ProgramId, currentServerId).then(resolve, reject);
-                });
-            } else {
-                import('./recordingcreator/recordingeditor').then(({ default: recordingEditor }) => {
-                    recordingEditor.show(item.Id, currentServerId).then(resolve, reject);
-                });
-            }
-        } else {
+        {
             import('./metadataEditor/metadataEditor').then(({ default: metadataEditor }) => {
                 metadataEditor.show(item.Id, currentServerId).then(resolve, reject);
             });
@@ -369,12 +351,6 @@ function editItem(item, serverId) {
     });
 }
 
-function onRecordCommand(serverId, id, type, timerId, seriesTimerId) {
-    if (type === 'Program' || timerId || seriesTimerId) {
-        const programId = type === 'Program' ? id : null;
-        recordingHelper.toggleRecording(serverId, programId, timerId, seriesTimerId);
-    }
-}
 
 export function onClick(e) {
     const card = dom.parentWithClass(e.target, 'itemAction');

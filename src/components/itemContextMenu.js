@@ -563,11 +563,6 @@ function executeCommand(item, id, options) {
             case 'clearQueue':
                 playbackManager.clearQueue();
                 break;
-            case 'record':
-                import('./recordingcreator/recordingcreator').then(({ default: recordingCreator }) => {
-                    recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                });
-                break;
             case 'shuffle':
                 playbackManager.shuffle(item);
                 getResolveFunction(resolve, id)();
@@ -646,12 +641,6 @@ function executeCommand(item, id, options) {
                     getResolveFunction(resolve, id, true)();
                 });
                 break;
-            case 'canceltimer':
-                deleteTimer(apiClient, item, resolve, id);
-                break;
-            case 'cancelseriestimer':
-                deleteSeriesTimer(apiClient, item, resolve, id);
-                break;
             default:
                 reject();
                 break;
@@ -659,22 +648,6 @@ function executeCommand(item, id, options) {
     });
 }
 
-function deleteTimer(apiClient, item, resolve, command) {
-    import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-        const timerId = item.TimerId || item.Id;
-        recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
-            getResolveFunction(resolve, command, true)();
-        });
-    });
-}
-
-function deleteSeriesTimer(apiClient, item, resolve, command) {
-    import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
-        recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
-            getResolveFunction(resolve, command, true)();
-        });
-    });
-}
 
 function play(item, resume, queue, queueNext) {
     let method = 'play';
@@ -716,15 +689,7 @@ function editItem(apiClient, item) {
     return new Promise(function (resolve, reject) {
         const serverId = apiClient.serverInfo().Id;
 
-        if (item.Type === 'Timer') {
-            import('./recordingcreator/recordingeditor').then(({ default: recordingEditor }) => {
-                recordingEditor.show(item.Id, serverId).then(resolve, reject);
-            });
-        } else if (item.Type === 'SeriesTimer') {
-            import('./recordingcreator/seriesrecordingeditor').then(({ default: recordingEditor }) => {
-                recordingEditor.show(item.Id, serverId).then(resolve, reject);
-            });
-        } else {
+        {
             import('./metadataEditor/metadataEditor').then(({ default: metadataEditor }) => {
                 metadataEditor.show(item.Id, serverId).then(resolve, reject);
             });

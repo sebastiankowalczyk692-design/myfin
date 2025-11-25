@@ -3,6 +3,7 @@ import React, { type FC, type PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import layoutManager from '../../layoutManager';
+import browser from '../../../scripts/browser';
 import type { DataAttributes } from 'types/dataAttributes';
 
 interface ListWrapperProps {
@@ -21,13 +22,16 @@ const ListWrapper: FC<PropsWithChildren<ListWrapperProps>> = ({
     dataAttributes,
     children
 }) => {
-    if (layoutManager.tv) {
+    const isMobileTouch = layoutManager.mobile && browser.touch;
+
+    if (layoutManager.tv || isMobileTouch) {
         return (
             <Button
                 data-index={index}
                 className={classNames(
                     className,
-                    'itemAction listItem-button listItem-focusscale'
+                    'itemAction listItem-button',
+                    { 'listItem-focusscale': layoutManager.tv }
                 )}
                 data-action={action}
                 aria-label={title || ''}

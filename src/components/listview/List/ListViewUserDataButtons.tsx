@@ -2,6 +2,8 @@ import React, { type FC } from 'react';
 import Box from '@mui/material/Box';
 
 import itemHelper from '../../itemHelper';
+import layoutManager from '../../layoutManager';
+import browser from '../../../scripts/browser';
 import PlayedButton from 'elements/emby-playstatebutton/PlayedButton';
 import FavoriteButton from 'elements/emby-ratingbutton/FavoriteButton';
 import PlaylistAddIconButton from '../../common/PlaylistAddIconButton';
@@ -23,6 +25,10 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
 }) => {
     const { IsFavorite, Played } = item.UserData ?? {};
 
+    // On mobile touch devices, hide all buttons except MoreVert
+    // The row tap will open the context menu as a fullscreen modal
+    const isMobileTouch = layoutManager.mobile && browser.touch;
+
     const renderRightButtons = () => {
         return listOptions.rightButtons?.map((button, index) => (
             <RightIconButtons
@@ -38,18 +44,18 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
 
     return (
         <Box className='listViewUserDataButtons'>
+            {!isMobileTouch && (
+                <>
             {listOptions.addToListButton && (
                 <PlaylistAddIconButton
                     className='paper-icon-button-light listItemButton itemAction'
                 />
-
             )}
             {listOptions.infoButton && (
                 <InfoIconButton
                     className='paper-icon-button-light listItemButton itemAction'
                 />
-
-            ) }
+                    )}
 
             {listOptions.rightButtons && renderRightButtons()}
 
@@ -72,6 +78,8 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
                             isFavorite={IsFavorite}
                             itemId={item.Id}
                         />
+                            )}
+                        </>
                     )}
                 </>
             )}

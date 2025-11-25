@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { getDataAttributes } from 'utils/items';
 import layoutManager from 'components/layoutManager';
+import browser from 'scripts/browser';
 
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
@@ -11,10 +12,12 @@ interface UseListProps {
 }
 
 function useList({ item, listOptions }: UseListProps) {
-    const action = listOptions.action ?? 'link';
+    // On mobile touch devices, tapping the row opens the context menu as fullscreen modal
+    const isMobileTouch = layoutManager.mobile && browser.touch;
+    const action = isMobileTouch ? 'menu' : (listOptions.action ?? 'link');
     const isLargeStyle = listOptions.imageSize === 'large';
     const enableOverview = listOptions.enableOverview;
-    const clickEntireItem = !!layoutManager.tv;
+    const clickEntireItem = !!layoutManager.tv || isMobileTouch;
     const enableSideMediaInfo = listOptions.enableSideMediaInfo ?? true;
     const enableContentWrapper =
         listOptions.enableOverview && !layoutManager.tv;
