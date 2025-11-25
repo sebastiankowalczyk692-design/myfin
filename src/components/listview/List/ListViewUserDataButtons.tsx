@@ -25,9 +25,13 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
 }) => {
     const { IsFavorite, Played } = item.UserData ?? {};
 
-    // On mobile touch devices, hide all buttons except MoreVert
-    // The row tap will open the context menu as a fullscreen modal
+    // On mobile touch devices, hide all buttons - long press opens context menu
     const isMobileTouch = layoutManager.mobile && browser.touch;
+
+    // Don't render anything on mobile touch
+    if (isMobileTouch) {
+        return null;
+    }
 
     const renderRightButtons = () => {
         return listOptions.rightButtons?.map((button, index) => (
@@ -44,8 +48,6 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
 
     return (
         <Box className='listViewUserDataButtons'>
-            {!isMobileTouch && (
-                <>
             {listOptions.addToListButton && (
                 <PlaylistAddIconButton
                     className='paper-icon-button-light listItemButton itemAction'
@@ -55,7 +57,7 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
                 <InfoIconButton
                     className='paper-icon-button-light listItemButton itemAction'
                 />
-                    )}
+            )}
 
             {listOptions.rightButtons && renderRightButtons()}
 
@@ -78,8 +80,6 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
                             isFavorite={IsFavorite}
                             itemId={item.Id}
                         />
-                            )}
-                        </>
                     )}
                 </>
             )}

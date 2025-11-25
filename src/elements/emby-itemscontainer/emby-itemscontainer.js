@@ -49,6 +49,58 @@ function onContextMenu(e) {
     }
 }
 
+// Long press handling for touch devices
+let longPressTimer = null;
+let longPressTriggered = false;
+let touchStartPos = null;
+
+function onTouchStart(e) {
+    const itemsContainer = this;
+    longPressTriggered = false;
+
+    const touch = e.touches[0];
+    touchStartPos = { x: touch.clientX, y: touch.clientY };
+
+    const target = e.target;
+    const card = dom.parentWithAttribute(target, 'data-id');
+
+    if (card?.getAttribute('data-serverid')) {
+        longPressTimer = setTimeout(() => {
+            longPressTriggered = true;
+            inputManager.handleCommand('menu', {
+                sourceElement: card
+            });
+        }, 500);
+    }
+}
+
+function onTouchMove(e) {
+    // Cancel long press if finger moves more than 10px
+    if (touchStartPos && longPressTimer) {
+        const touch = e.touches[0];
+        const deltaX = Math.abs(touch.clientX - touchStartPos.x);
+        const deltaY = Math.abs(touch.clientY - touchStartPos.y);
+        if (deltaX > 10 || deltaY > 10) {
+            clearTimeout(longPressTimer);
+            longPressTimer = null;
+        }
+    }
+}
+
+function onTouchEnd(e) {
+    if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+    }
+    // Prevent click if long press was triggered
+    if (longPressTriggered) {
+        e.preventDefault();
+        e.stopPropagation();
+        longPressTriggered = false;
+        return false;
+    }
+}
+
 function getShortcutOptions() {
     return {
         click: false
@@ -286,6 +338,10 @@ ItemsContainerPrototype.attachedCallback = function () {
 
     if (browser.touch) {
         this.addEventListener('contextmenu', disableEvent);
+        // Add long press handling for touch devices
+        this.addEventListener('touchstart', onTouchStart, { passive: true });
+        this.addEventListener('touchmove', onTouchMove, { passive: true });
+        this.addEventListener('touchend', onTouchEnd);
     } else if (this.getAttribute('data-contextmenu') !== 'false') {
         this.addEventListener('contextmenu', onContextMenu);
     }
